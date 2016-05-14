@@ -3,6 +3,7 @@
 def Player1Choice():  
     P1Turn = True
     while P1Turn:
+        print("Player 1")
         P1Hand = input("Rock, Paper, Scissors, Lizard, Spock: ")
         if P1Hand == "Rock":
             P1Value = 0
@@ -33,6 +34,7 @@ def Player1MoveName():
 def Player2Choice():  
     P2Turn = True
     while P2Turn:
+        print("Player 2")
         P2Hand = input("Rock, Paper, Scissors, Lizard, Spock: ")
         if P2Hand == "Rock":
             P2Value = 0
