@@ -1,4 +1,4 @@
-#Janken Ver 2.0#
+#Janken Ver 3.0#
 
 def Player1Choice():  
     P1Turn = True
@@ -74,10 +74,14 @@ def ThrowDown():
     Outcome = (P1Value - DeepBlue) % 5
     if Outcome == 0:
         print("Stalemate!")
+        Winner = "Tie"
     elif Outcome <= 2:
         print("You win!",P1Play,"beats",CPUPlay)
+        Winner = "Win"
     else:
         print("You Lose!",CPUPlay,"beats",P1Play)
+        Winner = "Lose"
+    return Winner
         
 def Showdown():
     print("Player 1 chose",P1Play)
@@ -85,10 +89,14 @@ def Showdown():
     Outcome = (P1Value - P2Value) % 5
     if Outcome == 0:
         print("Stalemate!")
+        Winner = "Tie"
     elif Outcome <= 2:
         print("Player 1 wins!",P1Play,"beats",P2Play)
+        Winner = "P1Win"
     else:
         print("Player 2 wins!",P2Play,"beats",P1Play)
+        Winner = "P2Win"
+    return Winner
     
 def Setup():
     print("Championship Janken Tournament Edition")
@@ -105,24 +113,44 @@ def Retry():
         Game = False
         return Game
 #################################################################
+import os
 import random
-        
+P1Score = 0
+P2Score = 0
+CPUScore = 0
+TieScore = 0
 Multi = Setup()        
-        
+
 while Multi == False:
     P1Value = Player1Choice() 
     P1Play = Player1MoveName()      
-    ThrowDown()
+    Winner = ThrowDown()
+    if Winner == "Win":
+        P1Score = P1Score + 1
+    elif Winner == "Lose":
+        CPUScore = CPUScore + 1
+    elif Winner == "Tie":
+        TieScore = TieScore + 1
+    print("The score is now: P1- ",P1Score,"DeepBlue- ",CPUScore,"Tie- ",TieScore)
     Game = Retry()
     if Game == False:
         break
     
 while Multi == True:
-    P1Value = Player1Choice() 
+    P1Value = Player1Choice()
+    os.system("cls")    
     P1Play = Player1MoveName()
-    P2Value = Player2Choice() 
+    P2Value = Player2Choice()
+    os.system("cls")
     P2Play = Player2MoveName()
-    Showdown()
+    Winner = Showdown()
+    if Winner == "P1Win":
+        P1Score = P1Score + 1
+    elif Winner == "P2Win":
+        P2Score = P2Score + 1
+    elif Winner == "Tie":
+        TieScore = TieScore + 1
+    print("The score is now: P1- ",P1Score,"P2- ",P2Score,"Tie- ",TieScore)
     Game = Retry()
     if Game == False:
         break
