@@ -1,6 +1,6 @@
 #Janken Ver 3.0#
 
-def Player1Choice():  
+def Player1Choice():
     P1Turn = True
     while P1Turn:
         print("Player 1")
@@ -62,7 +62,7 @@ def Player2MoveName():
     elif P2Value == 4: P2Play = "Scissors"
     return P2Play
 
-def ThrowDown():
+def CPUGameOutcome():
     DeepBlue = random.randrange(0,4)
     if DeepBlue == 0: CPUPlay = "Rock"
     elif DeepBlue == 1: CPUPlay = "Spock"
@@ -74,29 +74,29 @@ def ThrowDown():
     Outcome = (P1Value - DeepBlue) % 5
     if Outcome == 0:
         print("Stalemate!")
-        Winner = "Tie"
+        Score[2] += 1
     elif Outcome <= 2:
         print("You win!",P1Play,"beats",CPUPlay)
-        Winner = "Win"
+        Score[0] += 1
     else:
         print("You Lose!",CPUPlay,"beats",P1Play)
-        Winner = "Lose"
-    return Winner
+        Score[1] += 1
+    return Score
         
-def Showdown():
+def MultiPlayerOutcome():
     print("Player 1 chose",P1Play)
     print("Player 2 chose",P2Play)
     Outcome = (P1Value - P2Value) % 5
     if Outcome == 0:
         print("Stalemate!")
-        Winner = "Tie"
+        Score[2] += 1
     elif Outcome <= 2:
         print("Player 1 wins!",P1Play,"beats",P2Play)
-        Winner = "P1Win"
+        Score[0] += 1
     else:
         print("Player 2 wins!",P2Play,"beats",P1Play)
-        Winner = "P2Win"
-    return Winner
+        Score[1] += 1
+    return Score
     
 def Setup():
     print("Championship Janken Tournament Edition")
@@ -107,35 +107,30 @@ def Setup():
         Multi = True
     return Multi
 
+
+    
 def Retry():
     Continue = input("Play Again? Y/N: ")
-    if Continue in ("N", "n", "No", "no", "NO", "nO"):
+    Continue = Continue.lower()
+    if Continue in ("n","no"):
         Game = False
         return Game
 #################################################################
 import os
 import random
-P1Score = 0
-P2Score = 0
-CPUScore = 0
-TieScore = 0
+Score = [0, 0 , 0]
 Multi = Setup()        
 
 while Multi == False:
-    P1Value = Player1Choice() 
+    P1Value = Player1Choice()
     P1Play = Player1MoveName()      
-    Winner = ThrowDown()
-    if Winner == "Win":
-        P1Score = P1Score + 1
-    elif Winner == "Lose":
-        CPUScore = CPUScore + 1
-    elif Winner == "Tie":
-        TieScore = TieScore + 1
-    print("The score is now: P1- ",P1Score,"DeepBlue- ",CPUScore,"Tie- ",TieScore)
+    CPUGameOutcome()
+    print("The score is now: ",Score)
     Game = Retry()
     if Game == False:
         break
-    
+
+           
 while Multi == True:
     P1Value = Player1Choice()
     os.system("cls")    
@@ -143,14 +138,8 @@ while Multi == True:
     P2Value = Player2Choice()
     os.system("cls")
     P2Play = Player2MoveName()
-    Winner = Showdown()
-    if Winner == "P1Win":
-        P1Score = P1Score + 1
-    elif Winner == "P2Win":
-        P2Score = P2Score + 1
-    elif Winner == "Tie":
-        TieScore = TieScore + 1
-    print("The score is now: P1- ",P1Score,"P2- ",P2Score,"Tie- ",TieScore)
+    MultiPlayerOutcome()
+    print("The score is now: ",Score)
     Game = Retry()
     if Game == False:
-        break
+        break    
